@@ -1,0 +1,52 @@
+# -*- coding: utf-8 -*-
+#readin the constants find psi and delta data
+
+import TMM as tmm
+import numpy as np
+import matplotlib.pyplot as plt
+
+a = np.loadtxt('7059g.csv',delimiter=',',skiprows=1)
+n_7059 = a[:,1]
+k_7059 = a[:,2]
+a = np.loadtxt('al2o3.csv',delimiter=',',skiprows=1)
+n_al2o3 = a[:,1]
+k_al2o3 = a[:,2]
+a = np.loadtxt('ag-g.csv',delimiter=',',skiprows=1)
+n_ag = a[:,1]
+k_ag = a[:,2]
+a = np.loadtxt('a-ge.csv',delimiter=',',skiprows=1)
+wavelength = a[:,0]
+n_ge = a[:,1]
+k_ge = a[:,2]
+
+
+#################################################
+# 0 = TE, 1 = TM polarization
+rho = 1
+#user defined index of refraction for layers, cover(above), and substrate(below)
+n = np.array([n_al2o3+1j*k_al2o3, n_ag+1j*k_ag, n_ge+1j*k_ge])
+#n = np.array([n_al2o3+1j*k_al2o3, n_ag+1j*k_ag, n_ge+1j*k_ge,n_al2o3+1j*k_al2o3, n_ag+1j*k_ag, n_ge+1j*k_ge,n_al2o3+1j*k_al2o3, n_ag+1j*k_ag, n_ge+1j*k_ge,n_al2o3+1j*k_al2o3, n_ag+1j*k_ag, n_ge+1j*k_ge,n_al2o3+1j*k_al2o3, n_ag+1j*k_ag, n_ge+1j*k_ge]) 
+n_cover = 1 #ambient
+n_subst = n_7059+1j*k_7059 #corning 7059 glass slide
+#user defined thickness of each layer, m
+l = np.array([35E-9,10E-9,0E-9])
+#l = np.array([39E-9,7E-9,1E-9,43E-9,7E-9,1E-9,38E-9,7E-9,1E-9,34E-9,7E-9,1E-9,43E-9,7E-9,1E-9])
+#angle of incidence, degrees
+ang_of_inc = 45
+# wavelength of light incident in m
+wavelength *= 1E-9
+#################################################
+psi = np.zeros(wavelength.size)
+delta = np.zeros(wavelength.size)
+
+for i in range(0,wavelength.size):
+    (psi[i],delta[i]) = tmm.ellips(ang_of_inc, wavelength[i], n[:,i], l, n_cover, n_subst[i])
+
+
+plt.plot(wavelength*1E9,psi,'b-')
+plt.xlabel('wavelength (nm)')
+plt.ylabel('Angle (deg)')
+plt.legend(['Psi'])
+plt.show()
+
+
