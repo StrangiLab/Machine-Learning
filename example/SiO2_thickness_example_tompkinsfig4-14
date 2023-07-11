@@ -11,12 +11,12 @@ rho = 1
 n = np.array([1.46]) 
 n_cover = 1
 n_subst = 3.87+0.02j
-#user defined thickness of each layer, m
+#user defined thickness of each layer, micron
 d = np.linspace(1E-9,1000E-9,100)
 l = np.array([10E-9,10E-9])
 #angle of incidence, degrees
 ang_of_inc = 70
-# wavelength of light incident in m
+# wavelength of light incident in micron
 #wavelength = np.linspace(300E-9,700E-9,500)
 wavelength = 633E-9;
 #sigma on NormDist for error in measurements
