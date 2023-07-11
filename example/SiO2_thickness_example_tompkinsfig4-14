@@ -1,0 +1,49 @@
+# -*- coding: utf-8 -*-
+
+import TMM_chillwell as tmm
+import numpy as np
+import matplotlib.pyplot as plt
+
+#################################################
+# 0 = TE, 1 = TM polarization
+rho = 1
+#user defined index of refraction for layers, cover(above), and substrate(below)
+n = np.array([1.46]) 
+n_cover = 1
+n_subst = 3.87+0.02j
+#user defined thickness of each layer, m
+d = np.linspace(1E-9,1000E-9,100)
+l = np.array([10E-9,10E-9])
+#angle of incidence, degrees
+ang_of_inc = 70
+# wavelength of light incident in m
+#wavelength = np.linspace(300E-9,700E-9,500)
+wavelength = 633E-9;
+#sigma on NormDist for error in measurements
+sig = 0.01
+#################################################
+psi = np.zeros(100)
+delta = np.zeros(100)
+
+##code to output dataset to file for training dataset
+#it = 1;
+#np.random.seed(5)
+#tabler = np.zeros((it*wavelength.size,2))
+#tablet = np.zeros((it*wavelength.size,2))
+#for j in range(0,it):
+#    for i in range(0,wavelength.size):
+#        tabler[j*wavelength.size+i,:] =np.array([wavelength[i],np.random.normal(0,sig,)+tmm.reflect_amp(rho,ang_of_inc,wavelength[i],n,l,n_cover,n_subst)])
+#        tablet[j*wavelength.size+i,:] =np.array([wavelength[i],np.random.normal(0,sig,)+tmm.trans_amp(rho,ang_of_inc,wavelength[i],n,l,n_cover,n_subst)])
+#np.savetxt('ref_dataset.csv', tabler, delimiter=',')
+
+for i in range(0,100):
+    (psi[i],delta[i]) = tmm.ellips(ang_of_inc,wavelength,n,d[i],n_cover,n_subst)
+    
+    
+
+plt.plot(d*1E9,psi,'b-',d*1E9,delta,'r-')
+plt.xlabel('Layer Thickness (nm)')
+plt.ylabel('Angle (deg)')
+plt.legend(['Psi','Delta'])
+plt.show()
+
