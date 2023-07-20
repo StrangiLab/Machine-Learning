@@ -22,7 +22,7 @@ A program to calculate the reflection amplitude of a thing film structure of lig
 - Reflectance amplitude
 - Transmission amplitude
 - Ellipsometric parameters
-          - $\Psi$ ($\arctan(\Psi)$ is the amplitude ratio upon reflection) and $\Delta$(phase shift)
+  - $\Psi$ ($\arctan(\Psi)$ is the amplitude ratio upon reflection) and $\Delta$(phase shift)
 
 ### Side Notes
 * TE: transverse electric field
